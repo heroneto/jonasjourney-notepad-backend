@@ -144,7 +144,6 @@ export const updateCommentNoteReference = async (request: Request, response: Res
   }
 }
 
-
 export const removeComment = async (request: Request, response: Response) => {
 	try{
 		const id = request.params.id
