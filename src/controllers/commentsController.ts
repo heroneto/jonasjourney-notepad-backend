@@ -45,3 +45,31 @@ export const createComment = async(request: Request, response: Response) => {
     return serverError(response)
   }
 }
+
+export const updateComment = async(request:Request, response: Response) => {
+  try{
+    const { id, title, body, date } = request.body
+    if(!id){
+			return missingParameter("ID", response)
+		}
+		if(id.length !== 24){
+			return invalidParameter("ID", response)
+    }
+
+    const comment = await Comments.findByIdAndUpdate(id, {
+			title,
+			body,
+      date,
+		})
+	
+		if(!comment){
+			return notFound("Comment", response)
+		}
+
+		return ok(comment, response)
+
+  }catch(error){
+    console.error(error)
+    return serverError(response)
+  }
+}

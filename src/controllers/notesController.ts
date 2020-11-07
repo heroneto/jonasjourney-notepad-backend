@@ -80,8 +80,6 @@ export const updateNote = async (request: Request, response: Response) => {
 			title,
 			body,
 			date
-		}, {
-			lean: true
 		})
 	
 		if(!note){

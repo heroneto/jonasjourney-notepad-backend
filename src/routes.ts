@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { createNote, getAllNotes, getOneNote, removeNote, searchNote, updateNote } from './controllers/notesController'
-import { createComment, getAllComments  } from './controllers/commentsController'
+import { createComment, getAllComments, updateComment  } from './controllers/commentsController'
 
 const route = Router()
 
@@ -14,5 +14,6 @@ route.delete('/notes/:id', removeNote)
 
 route.get('/comments', getAllComments)
 route.post('/comments', createComment)
+route.put('/comments', updateComment)
 
 export default route
