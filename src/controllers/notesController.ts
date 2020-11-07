@@ -1,6 +1,7 @@
 import { Request, Response, ok, notFound } from '../utils/helpers/http'
 import { Notes } from '../models/notes'
 import { invalidParameter, missingParameter, serverError } from '../utils/errors'
+import { Comments } from '../models/comments'
 
 export const getOneNote = async (request: Request, response: Response) => {
 	try{
@@ -94,7 +95,6 @@ export const updateNote = async (request: Request, response: Response) => {
 	}
 }
 
-
 export const removeNote = async (request: Request, response: Response) => {
 	try{
 		const id = request.params.id
@@ -108,6 +108,11 @@ export const removeNote = async (request: Request, response: Response) => {
 		if(!note){
 			return notFound("Note", response)
 		}
+
+		await Comments.deleteMany({
+			note: note._id
+		})
+
 		return ok(note, response)
 	}catch(error){
 		console.error(error)

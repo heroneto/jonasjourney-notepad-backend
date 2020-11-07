@@ -23,6 +23,14 @@ const NoteSchema  = new Schema({
 	]
 })
 
+export interface NoteProps extends Document{
+  title: string,
+  body: string,
+  date: Date,
+  comments: Array<string>
+}
 
 
-export const Notes = mongoose.model('Notes', NoteSchema)
+
+
+export const Notes = mongoose.model<NoteProps>('Notes', NoteSchema)
