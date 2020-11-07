@@ -18,11 +18,11 @@ function server(){
       }
     })
 
-    db.on('error', (error) => {
+    db.once('error', (error) => {
       throw new Error(error)
     })
   }catch(error){
-    console.log(error)
+    console.error(error)
   }
 }
 
