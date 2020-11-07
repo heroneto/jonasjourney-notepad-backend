@@ -95,3 +95,24 @@ export const updateNote = async (request: Request, response: Response) => {
 		return serverError(response)
 	}
 }
+
+
+export const removeNote = async (request: Request, response: Response) => {
+	try{
+		const id = request.params.id
+		if(!id){
+			return missingParameter("ID", response)
+		}
+		if(id.length !== 24){
+			return invalidParameter("ID", response)
+		}
+		const note = await Notes.findByIdAndDelete(id)
+		if(!note){
+			return notFound("Note", response)
+		}
+		return ok(note, response)
+	}catch(error){
+		console.error(error)
+		return serverError(response)
+	}
+}
