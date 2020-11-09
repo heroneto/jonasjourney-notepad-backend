@@ -14,7 +14,7 @@ function server(){
     console.log("Iniciando banco de dados")
     db.once('open', () => {
       if(db.readyState === 1) {
-        app.listen(3333, () => {
+        app.listen(process.env.PORT || 3333, () => {
           console.log("Servidor na porta 3333")
         })
       }
