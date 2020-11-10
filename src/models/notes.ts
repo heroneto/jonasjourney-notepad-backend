@@ -21,6 +21,8 @@ const NoteSchema  = new Schema({
 			ref:'Comments'
 		}
 	]
+}, {
+	timestamps: true
 })
 
 export interface NoteProps extends Document{

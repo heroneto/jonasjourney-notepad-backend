@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
 dotenv.config({path: path.resolve(__dirname, '..', '..', '.env')})
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_HOST}/${process.env.MONGO_DBNAME}`,
+mongoose.connect(`${process.env.MONGO_HOST}/${process.env.MONGO_DBNAME}`,
   {
     useNewUrlParser: true, 
     useUnifiedTopology: true,

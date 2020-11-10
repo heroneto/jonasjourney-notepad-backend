@@ -25,8 +25,14 @@ export const getOneNote = async (request: Request, response: Response) => {
 
 export const getAllNotes = async (request: Request, response: Response) => {
 	try{
-		const notes = await Notes.find()
-		return ok(notes, response)
+		const limit = Number(request.query.limit)
+		const skip = Number(request.query.skip)
+		const sortBy = request.query.sortBy
+		const sortOrder = request.query.sortOrder
+		
+		const notes = await Notes.find().sort({[`${sortBy}`]: sortOrder}).limit(limit).skip(skip)
+		const total = await Notes.countDocuments()
+		return ok({notes, total}, response)
 	}catch(error){
 		console.error(error)
 		return serverError(response)
@@ -35,12 +41,17 @@ export const getAllNotes = async (request: Request, response: Response) => {
 
 export const searchNote = async (request: Request, response: Response) => {
 	try{
-		const { text } = request.query
+		const text: any = request.query.text		
+		const queryFilter: any = [
+			{title: { "$regex": text, "$options": "i" } },
+			{body: { "$regex": text, "$options": "i" } }
+		]
+		if(!isNaN(Date.parse(text))){
+			queryFilter.push({'date': text})
+		}
+		
 		const notes = await Notes.find({
-			$or: [
-				{title: { "$regex": text, "$options": "i" } },
-				{body: { "$regex": text, "$options": "i" }}
-			]
+			$or: queryFilter
 		})
 		return ok(notes, response)
 	}catch(error){
@@ -56,7 +67,8 @@ export const createNote = async (request: Request, response: Response) => {
 		const note = await Notes.create({
 			title,
 			body,
-			date
+			date,
+			comments: []
 		})
 	
 		return ok(note, response, 201)

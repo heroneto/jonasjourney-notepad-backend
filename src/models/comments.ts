@@ -19,6 +19,8 @@ const CommentsSchema = new Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:'Notes'
   }  
+}, {
+  timestamps: true
 })
 
 
